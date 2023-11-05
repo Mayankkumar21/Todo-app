@@ -2,14 +2,28 @@
 <html lang="en">
 <title>TODO App</title>
 <script>
-    function printer(res){
-        console.log(res.body)
+    function dataCallback(resp){
+        resp.json().then(printer);
+    }
+    function printer(data){
+        var head=document.getElementById("displayArea");
+        var newdiv=document.createElement("div");
+        var span1=document.createElement("span")
+        var span2=document.createElement("span")
+        
+
+        span1.innerHTML=data.Title+" ";
+        span2.innerHTML=data.Description+" ";
+        
+        newdiv.appendChild(span1)
+        newdiv.appendChild(span2)
+
+        head.appendChild(newdiv);
+        console.log(res.body);
     }
     function onPress(){
         var titleToAdd=document.getElementById("title").value;
         var desc=document.getElementById("desc").value;
-        console.log(titleToAdd)
-        console.log(desc)
         fetch("http://localhost:3000/add",{method:"POST",
         body:JSON.stringify({
             title:titleToAdd,
@@ -18,7 +32,7 @@
     headers:{
         "Content-Type":"application/json"
     }
-    }).then(printer)
+    }).then(dataCallback)
     }
 </script>
 <body>
@@ -28,6 +42,10 @@
     TODO Description
     <input type="text" id="desc">
     <br><br>
-    <button onclick="onPress()">Send ToDo</button>  
+    <button onclick="onPress()">Send ToDo</button>
+    <br>
+    <div id="displayArea">
+
+    </div> 
 </body>
 </html>
