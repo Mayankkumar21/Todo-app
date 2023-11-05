@@ -10,13 +10,16 @@
         var newdiv=document.createElement("div");
         var span1=document.createElement("span")
         var span2=document.createElement("span")
+        var button=document.createElement("button")
         
 
         span1.innerHTML=data.Title+" ";
         span2.innerHTML=data.Description+" ";
+        button.innerHTML="Delete Task"
         
         newdiv.appendChild(span1)
         newdiv.appendChild(span2)
+        newdiv.appendChild(button)
 
         head.appendChild(newdiv);
         console.log(res.body);
