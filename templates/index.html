@@ -11,7 +11,7 @@
             background-color: #f8f9fa;
         }
         .container {
-            margin-top: 50px;
+            margin-top: 40px;
         }
         .card {
             margin-bottom: 20px;
@@ -27,7 +27,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Add Todo</h5>
-            <form id="addTodoForm">
+            <form id="addTodoForm" method="post" action="{{url_for('add_todo')}}">
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input type="text" class="form-control" id="title" name="title" required>
@@ -47,7 +47,13 @@
     
     <!-- Todo List -->
     <div id="todoList">
-        <!-- Todo items will be displayed here dynamically -->
+        <h3 class="mt-4 mb-3">Todo List</h3>
+        <ul class="list-group">
+            <!-- Todo items will be displayed here dynamically -->
+            {% for todo in todos %}
+                <li class="list-group-item">{{ todo.title }} - {{ todo.description }} (ID: {{ todo.id }})</li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
