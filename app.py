@@ -1,19 +1,12 @@
-from flask import Flask, abort, jsonify,render_template,request
+from flask import Flask, abort, jsonify,render_template,request,redirect, url_for
 
-todos = [
-    {
-        'id': 1,
-        'title': 'wipe windows',
-        'description': 'wipe windows properly'
-    },
-    {
-        'id': 2,
-        'title': 'write article',
-        'description': 'write beautiful article'
-    },
-]
+todos = []
 
 app=Flask(__name__)
+
+@app.route('/')
+def frontend():
+    return render_template('index.html',todos=todos)
 
 @app.route("/todos/")
 def get_all_todos():
@@ -30,20 +23,28 @@ def get_todoById(id):
     except IndexError:
         abort(404)
 
-@app.route("/add",methods=['POST'])
-def addTodo():
-    data=request.json
-    if 'title' in data and 'description' in data and 'id' in data:
+@app.route("/add",methods=['GET','POST'])
+def add_todo():
+    new_title=request.form.get('title')
+    new_desc=request.form.get('description')
+    new_id=request.form.get('id')
+    # new_todo=[]
+    
+    try:
         todos.append({
-            'id':data['id'],
-            'title':data['title'],
-            'description':data['description'],
-        })
-        return jsonify({"message": "Todo added successfully"}), 201
-    else:
-        abort(400, "Bad Request: 'title', 'description', and 'id' are required fields")
+            'id':new_id,
+            'title':new_title,
+            'description':new_desc,
+            })
+        print(new_desc,new_id,new_title)
+        print(todos)
+        return redirect(url_for('frontend'))
+    except Exception as e:
+        print("Error adding todo{e}")
+        abort(400,"Bad Request: Unable to add todo.")
+
         
-@app.route('/delete/<int:id>/',methods=['POST'])
+@app.route('/delete/<int:id>/',methods=['DELETE'])
 def delete_todo(id):
     global todos
     initial_len=len(todos)
@@ -55,4 +56,4 @@ def delete_todo(id):
             
 
 
-app.run()
+app.run(debug=True)
