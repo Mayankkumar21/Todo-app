@@ -15,6 +15,10 @@ todos = [
 
 app=Flask(__name__)
 
+@app.route('/')
+def frontend():
+    return render_template('index.html')
+
 @app.route("/todos/")
 def get_all_todos():
     return jsonify(todos)
