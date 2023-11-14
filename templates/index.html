@@ -6,17 +6,8 @@
     <title>Todo App</title>
     <!-- Add Bootstrap CDN link here -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 40px;
-        }
-        .card {
-            margin-bottom: 20px;
-        }
-    </style>
+    <!-- Link the custom styles.css file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
@@ -51,7 +42,11 @@
         <ul class="list-group">
             <!-- Todo items will be displayed here dynamically -->
             {% for todo in todos %}
-                <li class="list-group-item">{{ todo.title }} - {{ todo.description }} (ID: {{ todo.id }})</li>
+                <li class="list-group-item">{{ todo.title }} - {{ todo.description }} (ID: {{ todo.id }})
+                    <form method="post" action="{{url_for('delete_todo', id=todo.id)}}" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm float-right">DELETE</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     </div>
