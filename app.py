@@ -1,11 +1,21 @@
 from flask import Flask, abort, jsonify,render_template,request,redirect, url_for
 from flask_pymongo import PyMongo
+from dotenv import load_dotenv, dotenv_values
+import os
 
 
 
 app=Flask(__name__)
 
-app.config['MONGO_URI']='mongodb+srv://<username>:<password>@cluster1.ludhci1.mongodb.net/mydb?retryWrites=true&w=majority'
+load_dotenv()
+
+mongo_hash =({
+  "URI": os.getenv("MONGO_URI"),
+  
+})
+
+
+app.config['MONGO_URI']=mongo_hash["URI"]
 mongo=PyMongo(app)
 
 @app.route('/')
